@@ -1,1 +1,30 @@
-<p>graficauno works!</p>
+<div class="row">
+    <div class="col-6">
+        <app-donut
+            chartTitle="Sales"
+            [chartLabels]="chartLabelsOne"
+            [chartDatasets]="chartDatasetsOne"
+        ></app-donut>
+    </div>
+    <div class="col-6">
+        <app-donut
+            chartTitle="Marketing"
+            [chartLabels]="chartLabelsTwo"
+            [chartDatasets]="chartDatasetsTwo"
+        ></app-donut>    
+    </div>
+    <div class="col-6">
+        <app-donut
+            chartTitle="TI"
+            [chartLabels]="chartLabelsThree"
+            [chartDatasets]="chartDatasetsThree"
+        ></app-donut>    
+    </div>
+    <div class="col-6">
+        <app-donut
+            chartTitle="Customers"
+            [chartLabels]="chartLabelsFour"
+            [chartDatasets]="chartDatasetsFour"
+        ></app-donut>    
+    </div>
+</div>
