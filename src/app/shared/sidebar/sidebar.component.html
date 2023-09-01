@@ -16,7 +16,7 @@
                         <li><a href="javascript:void()">My Balance</a></li>
                         <li><a href="javascript:void()">Inbox</a></li>
                         <li><a routerLink="account-settings">Account Setting</a></li>
-                        <li><a routerLink="/sssssslogin">Logout</a></li>
+                        <li><a routerLink="/login">Logout</a></li>
                     </ul>
                 </li>
                 <li class="nav-devider"></li>
@@ -34,7 +34,10 @@
                     </a>
                     <ul aria-expanded="false" class="collapse" *ngFor="let sub of item.children">
                         <li>
-                            <a routerLink={{sub.path}}>
+                            <a
+                                routerLink={{sub.path}}
+                                routerLinkActive="active"
+                                [routerLinkActiveOptions]="{ exact: true }">
                                 {{ sub.title }}
                             </a>
                         </li>
