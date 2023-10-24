@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { registerForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
 import { Observable, of } from 'rxjs';
+import { User } from '../models/user.model';
 
 declare const google: any;
 
@@ -16,6 +17,7 @@ declare const google: any;
 export class UserService {
 
   public URL_API = environment.base_url;
+  public user!: User;
 
   constructor(private http: HttpClient) { }
 
@@ -23,6 +25,18 @@ export class UserService {
     return this.http.post(`${this.URL_API}/users`, formData).pipe(
       tap((response: any) => localStorage.setItem('token', response.token))
     );
+  }
+
+  updateProfile(formData: { name: string, email: string, role: string }) {
+    
+    formData = {
+      ... formData,
+      role: this.user.role || ''
+    }
+
+    return this.http.put(`${this.URL_API}/users/${this.getUUID}`, formData, {
+      headers: { 'x-token': this.getToken }
+    })
   }
 
   login(formData: LoginForm) {
@@ -38,14 +52,25 @@ export class UserService {
   }
 
   checkToken(): Observable<boolean> {
-    const token = localStorage.getItem('token') || '';
     return this.http.get(`${this.URL_API}/login/renewToken`, {
-      headers: { 'x-token': token }
+      headers: { 'x-token': this.getToken }
     }).pipe(
-      tap((response: any) => localStorage.setItem('token', response.token)),
-      map((response: any) => true),
+      map((response: any) => {
+        const { name, email, uid, role, isGoogleAccount, img = '' } = response.user;
+        this.user = new User(name, email, '', isGoogleAccount, img, role, uid);
+        localStorage.setItem('token', response.token);
+        return true;
+      }),
       catchError((error) => of(false))
     )
+  }
+
+  get getToken() {
+    return localStorage.getItem('token') || '';
+  }
+
+  get getUUID() {
+    return this.user.uid || '';
   }
 
   logout() {

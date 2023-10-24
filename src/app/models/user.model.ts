@@ -1,3 +1,7 @@
+import { environment } from "src/environments/environment"
+
+const API_URL = environment.base_url;
+
 export class User
 {
 
@@ -11,4 +15,16 @@ export class User
         public uid?: string
     ) {}
 
+    get getImage() {
+
+        if (this.img?.includes('https')) {
+            return this.img;
+        }
+
+        if (this.img) {
+            return `${API_URL}/upload/users/${this.img}`;
+        } else {
+            return `${API_URL}/upload/users/default-image.jpg`;
+        }
+    }
 }
