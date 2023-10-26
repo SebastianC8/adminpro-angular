@@ -12,6 +12,9 @@ import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { authGuard } from '../guards/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
+import { UsersComponent } from './maintenance/users/users.component';
+import { HospitalsComponent } from './maintenance/hospitals/hospitals.component';
+import { DoctorsComponent } from './maintenance/doctors/doctors.component';
 
 const routes: Routes = [
     {
@@ -26,8 +29,15 @@ const routes: Routes = [
             { path: 'promises', component: PromisesComponent, data: { title: 'Promises' } },
             { path: 'rxjs', component: RxjsComponent, data: { title: 'RxJS' } },
             { path: 'profile', component: ProfileComponent, data: { title: 'User profile' } },
+
+            // maintenance
+            { path: 'users', component: UsersComponent, data: { title: 'Users' } },
+            { path: 'hospitals', component: HospitalsComponent, data: { title: 'Hospitals' } },
+            { path: 'doctors', component: DoctorsComponent, data: { title: 'Doctors' } },
+
+            // no route
             { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
-        ]
+        ],
     }
 ];
 

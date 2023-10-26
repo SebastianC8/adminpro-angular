@@ -7,3 +7,32 @@
     height: 200px;
     width: 200px;
 }
+
+.w100 {
+    width: 100px;
+}
+
+.w140 {
+    width: 140px;
+}
+
+.img-avatar-table {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    border: 1px solid gray;
+}
+
+.hidden {
+    display: none;
+}
+
+.background-modal-img {
+    background-color: rgba(0, 0, 0, 0.4);
+    left: 0px;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 9999;
+}

@@ -17,11 +17,11 @@ export class User
 
     get getImage() {
 
-        if (this.img?.includes('https')) {
+        if (!this.img) {
+            return `${API_URL}/upload/users/default-image.jpg`;
+        } else if (this.img?.includes('https')) {
             return this.img;
-        }
-
-        if (this.img) {
+        } else if (this.img) {
             return `${API_URL}/upload/users/${this.img}`;
         } else {
             return `${API_URL}/upload/users/default-image.jpg`;

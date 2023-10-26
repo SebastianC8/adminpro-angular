@@ -8,6 +8,7 @@ import { registerForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
 import { Observable, of } from 'rxjs';
 import { User } from '../models/user.model';
+import { GetUsers } from '../interfaces/get-users-interface';
 
 declare const google: any;
 
@@ -21,6 +22,20 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  get getToken() {
+    return localStorage.getItem('token') || '';
+  }
+
+  get getUUID() {
+    return this.user.uid || '';
+  }
+
+  get getHeaders() {
+    return {
+      headers: { 'x-token': this.getToken }
+    }
+  }
+
   createUser(formData: registerForm) {
     return this.http.post(`${this.URL_API}/users`, formData).pipe(
       tap((response: any) => localStorage.setItem('token', response.token))
@@ -28,15 +43,13 @@ export class UserService {
   }
 
   updateProfile(formData: { name: string, email: string, role: string }) {
-    
+
     formData = {
-      ... formData,
+      ...formData,
       role: this.user.role || ''
     }
 
-    return this.http.put(`${this.URL_API}/users/${this.getUUID}`, formData, {
-      headers: { 'x-token': this.getToken }
-    })
+    return this.http.put(`${this.URL_API}/users/${this.getUUID}`, formData, this.getHeaders)
   }
 
   login(formData: LoginForm) {
@@ -52,9 +65,7 @@ export class UserService {
   }
 
   checkToken(): Observable<boolean> {
-    return this.http.get(`${this.URL_API}/login/renewToken`, {
-      headers: { 'x-token': this.getToken }
-    }).pipe(
+    return this.http.get(`${this.URL_API}/login/renewToken`, this.getHeaders).pipe(
       map((response: any) => {
         const { name, email, uid, role, isGoogleAccount, img = '' } = response.user;
         this.user = new User(name, email, '', isGoogleAccount, img, role, uid);
@@ -65,19 +76,39 @@ export class UserService {
     )
   }
 
-  get getToken() {
-    return localStorage.getItem('token') || '';
-  }
-
-  get getUUID() {
-    return this.user.uid || '';
-  }
-
   logout() {
     localStorage.removeItem('token');
     google.accounts.id.revoke('scorralesintap@gmail.com', () => {
       window.location.reload();
     });
+  }
+
+  getUsers(from: number = 0, limit: number = 5) {
+    return this.http.get<GetUsers>(`${this.URL_API}/users?from=${from}&limit=${limit}`, this.getHeaders)
+      .pipe(
+        map((response) => {
+
+          const users = response.users.map((user) => new User(
+            user.name, user.email, '',
+            user.isGoogleAccount, user.img, user.role,
+            user.uid
+          ));
+
+          return {
+            users,
+            total: response.total
+          };
+
+        })
+      )
+  }
+
+  deleteUser(user: User) {
+    return this.http.delete(`${this.URL_API}/users/${user.uid}`, this.getHeaders);
+  }
+
+  changeRole(user: User) {
+    return this.http.put(`${this.URL_API}/users/${user.uid}`, user, this.getHeaders);
   }
 
 }
