@@ -68,8 +68,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   search(term: string) {
     if (term !== '') {
       this.searchService.search('users', term).subscribe({
-        next: (data) => {
-          this.users = data;
+        next: (response: any) => {
+          this.users = response;
         }
       })
     } else {

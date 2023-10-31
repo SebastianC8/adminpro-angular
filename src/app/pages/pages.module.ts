@@ -16,6 +16,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './maintenance/users/users.component';
 import { HospitalsComponent } from './maintenance/hospitals/hospitals.component';
 import { DoctorsComponent } from './maintenance/doctors/doctors.component';
+import { PipesModule } from '../pipes/pipes.module';
+import { DoctorComponent } from './maintenance/doctors/doctor.component';
 
 
 @NgModule({
@@ -30,7 +32,8 @@ import { DoctorsComponent } from './maintenance/doctors/doctors.component';
     ProfileComponent,
     UsersComponent,
     HospitalsComponent,
-    DoctorsComponent
+    DoctorsComponent,
+    DoctorComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +41,8 @@ import { DoctorsComponent } from './maintenance/doctors/doctors.component';
     SharedModule,
     ComponentsModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    PipesModule
   ],
   exports: [
     DashboardComponent,
