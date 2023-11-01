@@ -16,6 +16,8 @@ import { UsersComponent } from './maintenance/users/users.component';
 import { HospitalsComponent } from './maintenance/hospitals/hospitals.component';
 import { DoctorsComponent } from './maintenance/doctors/doctors.component';
 import { DoctorComponent } from './maintenance/doctors/doctor.component';
+import { SearchComponent } from './search/search.component';
+import { adminGuard } from '../guards/admin.guard';
 
 const routes: Routes = [
     {
@@ -24,18 +26,19 @@ const routes: Routes = [
         canActivate: [authGuard],
         children: [
             { path: '', component: DashboardComponent, data: { title: 'Dashboard' } },
-            { path: 'progress', component: ProgressComponent, data: { title: 'Progress' } },
-            { path: 'grafica1', component: GraficaunoComponent, data: { title: 'Chart one' } },
             { path: 'account-settings', component: AccountSettingsComponent, data: { title: 'Account settings' } },
+            { path: 'grafica1', component: GraficaunoComponent, data: { title: 'Chart one' } },
+            { path: 'progress', component: ProgressComponent, data: { title: 'Progress' } },
             { path: 'promises', component: PromisesComponent, data: { title: 'Promises' } },
-            { path: 'rxjs', component: RxjsComponent, data: { title: 'RxJS' } },
             { path: 'profile', component: ProfileComponent, data: { title: 'User profile' } },
+            { path: 'rxjs', component: RxjsComponent, data: { title: 'RxJS' } },
+            { path: 'search/:term', component: SearchComponent, data: { title: 'Search at all' } },
 
             // maintenance
-            { path: 'users', component: UsersComponent, data: { title: 'Users' } },
-            { path: 'hospitals', component: HospitalsComponent, data: { title: 'Hospitals' } },
             { path: 'doctors', component: DoctorsComponent, data: { title: 'Doctors' } },
             { path: 'doctor/:id', component: DoctorComponent, data: { title: 'Doctor' } },
+            { path: 'hospitals', component: HospitalsComponent, data: { title: 'Hospitals' } },
+            { path: 'users', component: UsersComponent, canActivate: [adminGuard], data: { title: 'Users' } },
 
             // no route
             { path: '', redirectTo: '/dashboard', pathMatch: 'full' }

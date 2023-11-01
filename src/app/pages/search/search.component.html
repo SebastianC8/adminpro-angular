@@ -1,0 +1,98 @@
+<div class="row">
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3>Users</h3>
+                <div class="alert alert-info" *ngIf="users && users.length === 0">
+                    <p class="mb-0">There aren't users.</p>
+                </div>
+                <div class="table-responsive" *ngIf="users.length > 0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="w100">Avatar</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let user of users">
+                                <tr>
+                                    <td class="text-center">
+                                        <img class="img-avatar-table" [src]="user.img! | img: 'users'" />
+                                    </td>
+                                    <td>{{user.name}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3>Doctors</h3>
+                <div class="alert alert-info" *ngIf="doctors && doctors.length === 0">
+                    <p class="mb-0">There aren't doctors.</p>
+                </div>
+                <div class="table-responsive" *ngIf="doctors.length > 0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="w100">Avatar</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let doctor of doctors">
+                                <tr>
+                                    <td class="text-center">
+                                        <img class="img-avatar-table" [src]="doctor.img! | img: 'doctors'" />
+                                    </td>
+                                    <a [routerLink]="['/dashboard/doctor', doctor._id]">
+                                        <td>{{doctor.name}}</td>
+                                    </a>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3>Hospitals</h3>
+                <div class="alert alert-info" *ngIf="hospitals && hospitals.length === 0">
+                    <p class="mb-0">There aren't hospitals.</p>
+                </div>
+                <div class="table-responsive" *ngIf="hospitals.length > 0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="w100">Avatar</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let hospital of hospitals">
+                                <tr>
+                                    <td class="text-center">
+                                        <img class="img-avatar-table" [src]="hospital.img! | img: 'hospitals'" />
+                                    </td>
+                                    <td>{{hospital.name}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

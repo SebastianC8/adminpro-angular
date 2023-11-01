@@ -51,6 +51,10 @@ export class SearchesService {
       );
   }
 
+  searchAtALL(term: string) {
+    return this.http.get(`${this.URL_API}/all/${term}`, this.getHeaders)
+  }
+
   private transformUsers(results: any[]): User[] {
     return results.map((user: User) => new User(
       user.name, user.email, '',

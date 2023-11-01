@@ -22,6 +22,10 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  get getRole(): 'ADMIN_ROLE' | 'USER_ROLE' {
+    return this.user.role!;
+  }
+
   get getToken() {
     return localStorage.getItem('token') || '';
   }
@@ -38,7 +42,9 @@ export class UserService {
 
   createUser(formData: registerForm) {
     return this.http.post(`${this.URL_API}/users`, formData).pipe(
-      tap((response: any) => localStorage.setItem('token', response.token))
+      tap((response: any) => {
+        this.saveLocalStorage(response);
+      })
     );
   }
 
@@ -54,13 +60,17 @@ export class UserService {
 
   login(formData: LoginForm) {
     return this.http.post(`${this.URL_API}/login`, formData).pipe(
-      tap((response: any) => localStorage.setItem('token', response.token))
+      tap((response: any) => {
+        this.saveLocalStorage(response);
+      })
     );
   }
 
   loginGoogle(token: string) {
     return this.http.post(`${this.URL_API}/login/google`, { token }).pipe(
-      tap((response: any) => localStorage.setItem('token', response.token))
+      tap((response: any) => {
+        this.saveLocalStorage(response);
+      })
     );
   }
 
@@ -69,7 +79,7 @@ export class UserService {
       map((response: any) => {
         const { name, email, uid, role, isGoogleAccount, img = '' } = response.user;
         this.user = new User(name, email, '', isGoogleAccount, img, role, uid);
-        localStorage.setItem('token', response.token);
+        this.saveLocalStorage(response);
         return true;
       }),
       catchError((error) => of(false))
@@ -78,6 +88,7 @@ export class UserService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
     google.accounts.id.revoke('scorralesintap@gmail.com', () => {
       window.location.reload();
     });
@@ -109,6 +120,11 @@ export class UserService {
 
   changeRole(user: User) {
     return this.http.put(`${this.URL_API}/users/${user.uid}`, user, this.getHeaders);
+  }
+
+  saveLocalStorage(response: any) {
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('menu', JSON.stringify(response.menu));
   }
 
 }

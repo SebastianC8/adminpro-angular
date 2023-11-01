@@ -91,7 +91,7 @@ export class DoctorComponent implements OnInit {
             next: (response) => {
 
               if (!response) {
-                return this.router.navigateByUrl(`/dashboard/doctor/${response.doctor._id}`);
+                return this.router.navigateByUrl(`/dashboard/doctors`);
               }
 
               const { name, hospital: { _id } } = response;
